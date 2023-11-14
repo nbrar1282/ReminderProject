@@ -42,10 +42,32 @@ let remindersController = {
 
   update: (req, res) => {
     // implementation here 👈
+
+      let reminderToUpdate = req.params.id;
+      let updatedReminder = database.cindy.reminders.find(function (reminder) {
+        return reminder.id == reminderToUpdate;
+      });
+    
+      if (updatedReminder) {
+        updatedReminder.title = req.body.title;
+        updatedReminder.description = req.body.description;
+        if (req.body.completed.toLowerCase() === 'false') {
+          updatedReminder.completed = false;
+        } else {
+          updatedReminder.completed = true;
+        } // Assuming this is a boolean
+        console.log(updatedReminder.completed)
+        res.redirect("/reminders");
+      } else {
+        res.status(404).send('Reminder not found');
+      }
+
+    
   },
 
   delete: (req, res) => {
     // implementation here 👈
+    
   },
 };
 
