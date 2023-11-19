@@ -7,3 +7,7 @@ Editing a Task - Implemented functionality for users to update reminder details 
 Deleting a Task - Developed a feature to delete reminders, allowing users to remove tasks from their list effectively.
 
 I watched the videos from week 10 to understand how these two functionalities work.
+
+Simranjit Kaur:
+I watched videos from week 10 and ran the code to find bugs in the code.
+
