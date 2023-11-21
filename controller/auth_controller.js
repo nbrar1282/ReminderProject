@@ -40,8 +40,9 @@ let authController = {
   },
 
   logout: (req, res) => {
-      req.logout();
-      res.redirect("/login");
+      req.logout((err) => {
+          res.redirect("/login");
+      });
   }
 };
 

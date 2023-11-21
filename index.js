@@ -7,7 +7,7 @@ const authController = require("./controller/auth_controller");
 const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
-const flash = require('connect-flash');
+// const flash = require('connect-flash');
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -46,7 +46,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(flash()); 
+// app.use(flash()); 
 
 // Routes start here
 app.get("/reminders", reminderController.list);
@@ -63,7 +63,7 @@ app.get("/login", forwardAuthenticated, authController.loginPage);
 app.get("/register", forwardAuthenticated, authController.registerPage);
 app.post("/login", authController.loginSubmit);
 app.post("/register", authController.registerSubmit);
-app.get("/logout", authController.logout);
+app.get("/auth/logout", authController.logout);
 
 app.listen(3001, function () {
   console.log(
