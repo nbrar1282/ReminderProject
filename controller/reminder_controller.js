@@ -1,88 +1,104 @@
-let database = require("../database");
+let { Database } = require("../database");
 
 let remindersController = {
   list: (req, res) => {
-    res.render("reminder/index", { reminders: database.cindy.reminders });
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
+    const userReminders = Database.users[userEmail]?.reminders;
+    if (userReminders) {
+      res.render("reminder/index", { reminders: userReminders });
+    } else {
+      res.status(404).send("User not found or no reminders available.");
+    }
   },
 
   new: (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
     res.render("reminder/create");
   },
 
   listOne: (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
     let reminderToFind = req.params.id;
-    let searchResult = database.cindy.reminders.find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-    if (searchResult != undefined) {
+    let searchResult = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToFind);
+
+    if (searchResult) {
       res.render("reminder/single-reminder", { reminderItem: searchResult });
     } else {
-      res.render("reminder/index", { reminders: database.cindy.reminders });
+      res.status(404).send("Reminder not found.");
     }
   },
 
   create: (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
     let reminder = {
-      id: database.cindy.reminders.length + 1,
+      id: Database.users[userEmail].reminders.length + 1, // Unique ID generation needed
       title: req.body.title,
       description: req.body.description,
       completed: false,
     };
-    database.cindy.reminders.push(reminder);
+    Database.users[userEmail].reminders.push(reminder);
     res.redirect("/reminders");
   },
 
   edit: (req, res) => {
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
     let reminderToFind = req.params.id;
-    let searchResult = database.cindy.reminders.find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-    res.render("reminder/edit", { reminderItem: searchResult });
+    let searchResult = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToFind);
+
+    if (searchResult) {
+      res.render("reminder/edit", { reminderItem: searchResult });
+    } else {
+      res.status(404).send("Reminder not found.");
+    }
   },
 
   update: (req, res) => {
-    // implementation here 👈
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
+    let reminderToUpdate = req.params.id;
+    let updatedReminder = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToUpdate);
 
-      let reminderToUpdate = req.params.id;
-      let updatedReminder = database.cindy.reminders.find(function (reminder) {
-        return reminder.id == reminderToUpdate;
-      });
-    
-      if (updatedReminder) {
-        updatedReminder.title = req.body.title;
-        updatedReminder.description = req.body.description;
-        if (req.body.completed.toLowerCase() === 'false') {
-          updatedReminder.completed = false;
-        } else {
-          updatedReminder.completed = true;
-        } // Assuming this is a boolean
-        console.log(updatedReminder.completed)
-        res.redirect("/reminders");
-      } else {
-        res.status(404).send('Reminder not found');
-      }
-
-    
+    if (updatedReminder) {
+      updatedReminder.title = req.body.title;
+      updatedReminder.description = req.body.description;
+      updatedReminder.completed = req.body.completed.toLowerCase() === 'true';
+      res.redirect("/reminders");
+    } else {
+      res.status(404).send('Reminder not found');
+    }
   },
 
   delete: (req, res) => {
-    // implementation here 👈
+    if (!req.user) {
+      return res.status(401).send("Unauthorized");
+    }
+    const userEmail = req.user.email;
     let reminderToDelete = req.params.id;
-    let reminders = database.cindy.reminders;
-    let initialLength = reminders.length;
-    database.cindy.reminders = reminders.filter(function (reminder) {
-      return reminder.id != reminderToDelete;
-    });
-  
-    if (initialLength !== database.cindy.reminders.length) {
+    let initialLength = Database.users[userEmail].reminders.length;
+    Database.users[userEmail].reminders = Database.users[userEmail].reminders.filter(reminder => reminder.id != reminderToDelete);
+
+    if (initialLength !== Database.users[userEmail].reminders.length) {
       res.redirect("/reminders");
     } else {
       res.status(404).send('Reminder not found');
     }
   }
 };
-  
-
-
 
 module.exports = remindersController;
