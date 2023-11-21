@@ -11,3 +11,8 @@ I watched the videos from week 10 to understand how these two functionalities wo
 Simranjit Kaur:
 I watched videos from week 10 and ran the code to find bugs in the code.
 
+I learnt about callback functions more and worked on making authentication work along with teammates and instructor Armaan
+
+I learnt to merge passport and reminder codes to login using a user(with authenication) and routing to reminders page.
+
+I learnt using the 'session' and destroy for revoking session.

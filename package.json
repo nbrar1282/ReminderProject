@@ -15,6 +15,7 @@
   "license": "ISC",
   "homepage": "http",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "ejs": "^3.1.9",
     "express": "^4.14.0",
     "express-ejs-layouts": "^2.2.0",
@@ -22,7 +23,7 @@
     "method-override": "^2.3.7",
     "nodemon": "^1.11.0",
     "passport": "^0.6.0",
-    "passport-session": "^1.0.2",
+    "passport-local": "^1.0.0",
     "start": "^5.1.0"
   }
 }
