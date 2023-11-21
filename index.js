@@ -6,7 +6,9 @@ const reminderController = require("./controller/reminder_controller");
 const authController = require("./controller/auth_controller");
 const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
-const passport = require("./middleware/passport");
+const passport = require('./middleware/passport');
+const flash = require('connect-flash');
+
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -24,7 +26,7 @@ app.use((req, res, next) => {
   console.log(req.session);
 
   console.log(`Session details are: `);
-  console.log(req.session.passport);
+  // console.log(req.session.passport);
   next();
 });
 
@@ -43,6 +45,8 @@ app.use(
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash()); 
 
 // Routes start here
 app.get("/reminders", reminderController.list);

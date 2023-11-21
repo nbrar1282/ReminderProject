@@ -1,5 +1,5 @@
 let { Database } = require("../database");
-
+const user = require("../database").userModel;
 let remindersController = {
   list: (req, res) => {
     if (!req.user) {

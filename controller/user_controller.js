@@ -24,6 +24,7 @@ const getUserByEmailIdAndPassword = (email, password) => {
   
   module.exports = {
     getUserByEmailIdAndPassword,
+    getUserById
     
   };
 

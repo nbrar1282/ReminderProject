@@ -1,19 +1,19 @@
-let User = require("../database").Database;
+let User = require("../database").database;
 const passport = require("../middleware/passport");
 
 let authController = {
   loginPage: (req, res) => {
-      res.render("login");
+      res.render("auth/login");
   },
 
   registerPage: (req, res) => {
-      res.render("register");
+      res.render("auth/register");
   },
 
   loginSubmit: (req, res, next) => {
       passport.authenticate("local", {
           successRedirect: "/reminders",
-          failureRedirect: "/auth/login",
+          failureRedirect: "/login",
           failureFlash: true
       })(req, res, next);
   },
@@ -24,7 +24,7 @@ let authController = {
       // Check if user already exists
       User.findOne({ email: email }, (err, user) => {
           if (user) {
-              res.render("register", {
+              res.render("auth/register", {
                   error: "Email already registered."
               });
           } else {
@@ -33,7 +33,7 @@ let authController = {
               // Save the new user
               newUser.save(err => {
                   if (err) throw err;
-                  res.redirect("/auth/login"); // Redirect to login after successful registration
+                  res.redirect("/login"); // Redirect to login after successful registration
               });
           }
       });
@@ -41,7 +41,7 @@ let authController = {
 
   logout: (req, res) => {
       req.logout();
-      res.redirect("/auth/login");
+      res.redirect("/login");
   }
 };
 
