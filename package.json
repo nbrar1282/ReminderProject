@@ -20,6 +20,8 @@
     "express-ejs-layouts": "^2.2.0",
     "express-session": "^1.17.3",
     "method-override": "^2.3.7",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
   }
 }
