@@ -12,12 +12,14 @@ const database = [
     name: "Johnny Doe",
     email: "johnny123@gmail.com",   
     password: "johnny123!",
+    reminders: [{title: "Buy groceries", description: "Buy milk, eggs, and bread", completed: false}],
   },
   {
     id: 3,
     name: "Jonathan Chen",
     email: "jonathan123@gmail.com",
     password: "jonathan123!",
+    reminders: [{title: "Play football", description: "Play 30 mins a day ", completed: false}]
   },
 ];
 
