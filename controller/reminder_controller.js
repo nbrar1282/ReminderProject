@@ -1,14 +1,14 @@
-let { Database } = require("../database");
-const user = require("../database").userModel;
+let { database } = require("../database");
+
 let remindersController = {
   list: (req, res) => {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    const userReminders = Database.users[userEmail]?.reminders;
-    if (userReminders) {
-      res.render("reminder/index", { reminders: userReminders });
+
+    const user = database.find(u => u.id === req.user.id);
+    if (user && user.reminders) {
+      res.render("reminder/index", { reminders: user.reminders });
     } else {
       res.status(404).send("User not found or no reminders available.");
     }
@@ -25,12 +25,13 @@ let remindersController = {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    let reminderToFind = req.params.id;
-    let searchResult = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToFind);
 
-    if (searchResult) {
-      res.render("reminder/single-reminder", { reminderItem: searchResult });
+    const user = database.find(u => u.id === req.user.id);
+    const reminderId = parseInt(req.params.id);
+    const reminder = user?.reminders.find(r => r.id === reminderId);
+
+    if (reminder) {
+      res.render("reminder/single-reminder", { reminderItem: reminder });
     } else {
       res.status(404).send("Reminder not found.");
     }
@@ -40,27 +41,34 @@ let remindersController = {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    let reminder = {
-      id: Database.users[userEmail].reminders.length + 1, // Unique ID generation needed
-      title: req.body.title,
-      description: req.body.description,
-      completed: false,
-    };
-    Database.users[userEmail].reminders.push(reminder);
-    res.redirect("/reminders");
+
+    const user = database.find(u => u.id === req.user.id);
+    if (user) {
+      const newReminder = {
+        id: user.reminders.length + 1, // Generate a unique ID for the reminder
+        title: req.body.title,
+        description: req.body.description,
+        completed: false,
+      };
+
+      user.reminders.push(newReminder);
+      res.redirect("/reminders");
+    } else {
+      res.status(404).send("User not found.");
+    }
   },
 
   edit: (req, res) => {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    let reminderToFind = req.params.id;
-    let searchResult = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToFind);
 
-    if (searchResult) {
-      res.render("reminder/edit", { reminderItem: searchResult });
+    const user = database.find(u => u.id === req.user.id);
+    const reminderId = parseInt(req.params.id);
+    const reminder = user?.reminders.find(r => r.id === reminderId);
+
+    if (reminder) {
+      res.render("reminder/edit", { reminderItem: reminder });
     } else {
       res.status(404).send("Reminder not found.");
     }
@@ -70,17 +78,19 @@ let remindersController = {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    let reminderToUpdate = req.params.id;
-    let updatedReminder = Database.users[userEmail]?.reminders.find(reminder => reminder.id == reminderToUpdate);
 
-    if (updatedReminder) {
-      updatedReminder.title = req.body.title;
-      updatedReminder.description = req.body.description;
-      updatedReminder.completed = req.body.completed.toLowerCase() === 'true';
+    const user = database.find(u => u.id === req.user.id);
+    const reminderId = parseInt(req.params.id);
+    const reminder = user?.reminders.find(r => r.id === reminderId);
+
+    if (reminder) {
+      reminder.title = req.body.title;
+      reminder.description = req.body.description;
+      reminder.completed = req.body.completed === 'true';
+
       res.redirect("/reminders");
     } else {
-      res.status(404).send('Reminder not found');
+      res.status(404).send("Reminder not found.");
     }
   },
 
@@ -88,15 +98,16 @@ let remindersController = {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
-    const userEmail = req.user.email;
-    let reminderToDelete = req.params.id;
-    let initialLength = Database.users[userEmail].reminders.length;
-    Database.users[userEmail].reminders = Database.users[userEmail].reminders.filter(reminder => reminder.id != reminderToDelete);
 
-    if (initialLength !== Database.users[userEmail].reminders.length) {
+    const user = database.find(u => u.id === req.user.id);
+    const reminderId = parseInt(req.params.id);
+
+    const reminderIndex = user?.reminders.findIndex(r => r.id === reminderId);
+    if (reminderIndex !== -1) {
+      user.reminders.splice(reminderIndex, 1);
       res.redirect("/reminders");
     } else {
-      res.status(404).send('Reminder not found');
+      res.status(404).send("Reminder not found.");
     }
   }
 };
