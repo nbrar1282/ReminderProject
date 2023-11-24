@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const ejsLayouts = require("express-ejs-layouts");
 const reminderController = require("./controller/reminder_controller");
@@ -8,6 +7,11 @@ const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
 const flash = require('connect-flash');
+const activeSessions = require('./activesession')
+
+const app = express();
+
+
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -30,18 +34,27 @@ app.set("view engine", "ejs");
 //   next();
 // });
 
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
+app.use(session({
+  secret: 'your_secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // true if using HTTPS, ensures cookie is only sent over secure protocols
+    httpOnly: true, // Mitigates XSS attacks by not allowing client-side script access to the cookie
+    maxAge: 1000 * 60 * 60 * 24 // Cookie expiration duration in milliseconds (e.g., 24 hours here)
+  }
+}));
+
+app.use((req, res, next) => {
+  if (req.session) {
+      activeSessions[req.sessionID] = req.session;
+      req.session.lastAccess = new Date();  // Optionally track last access
+  }
+  next();
+});
+
+
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,8 +78,26 @@ app.post("/login", authController.loginSubmit);
 app.post("/register", authController.registerSubmit);
 app.get("/logout", authController.logout);
 
+app.get("/admin", authController.adminPage);
+app.post('/revoke-session', (req, res) => {
+  if (req.isAuthenticated() && req.user.role === 'admin') {
+      const { sessionId } = req.body;
+      // Here, delete the session from your store
+      if (activeSessions[sessionId]) {
+          delete activeSessions[sessionId];
+          res.redirect('/admin'); 
+
+      } else {
+          res.status(404).json({ success: false, message: 'Session not found' });
+      }
+  } else {
+      res.status(403).json({ success: false, message: 'Unauthorized' });
+  }
+});
+   
 app.listen(3001, function () {
   console.log(
     "Server running. Visit: http://localhost:3001/reminders in your browser 🚀"
   );
 });
+
