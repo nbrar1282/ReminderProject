@@ -13,13 +13,15 @@ const database = [
     email: "johnny123@gmail.com",   
     password: "johnny123!",
     reminders: [{id:1, title: "Buy groceries", description: "Buy milk, eggs, and bread", completed: false}],
+    role:"user"
   },
   {
     id: 3,
     name: "Jonathan Chen",
     email: "jonathan123@gmail.com",
     password: "jonathan123!",
-    reminders: [{id:1, title: "Play football", description: "Play 30 mins a day ", completed: false}]
+    reminders: [{id:1, title: "Play football", description: "Play 30 mins a day ", completed: false}],
+    role:"user"
   },
 ];
 

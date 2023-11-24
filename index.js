@@ -8,6 +8,8 @@ const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
 const flash = require('connect-flash');
+const { isAdmin } = require('./controller/auth_controller'); // Import the isAdmin middleware
+
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -64,6 +66,25 @@ app.get("/register", forwardAuthenticated, authController.registerPage);
 app.post("/login", authController.loginSubmit);
 app.post("/register", authController.registerSubmit);
 app.get("/logout", authController.logout);
+
+// Route to render the admin dashboard
+app.get('/admin', authController.isAdmin, (req, res) => {
+  res.render('/admin');
+});
+
+
+app.post('/admin/destroy-session', isAdmin, (req, res) => {
+  const sessionId = req.body.sessionId; // The ID of the session to destroy from POST data
+
+  req.sessionStore.destroy(sessionId, (err) => {
+    if (err) {
+      console.error('Session destruction error:', err);
+      res.status(500).json({ message: 'Failed to destroy the session.' });
+    } else {
+      res.json({ message: 'Session destroyed successfully.' });
+    }
+  });
+});
 
 app.listen(3001, function () {
   console.log(
