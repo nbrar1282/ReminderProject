@@ -1,5 +1,6 @@
 let User = require("../database").database;
 const passport = require("../middleware/passport");
+const userModel = require("../database").userModel;
 
 let authController = {
   loginPage: (req, res) => {
@@ -11,12 +12,22 @@ let authController = {
   },
 
   loginSubmit: (req, res, next) => {
-      passport.authenticate("local", {
-          successRedirect: "/reminders",
-          failureRedirect: "/login",
-          failureFlash: true
-      })(req, res, next);
-  },
+    const { email, password } = req.body;
+    const user = userModel.findOne(email);
+    if (user.role === 'admin') {
+        passport.authenticate("local", {
+            successRedirect: "/admin",
+            failureRedirect: "/login",
+            // failureFlash: true
+        })(req, res, next);
+        }else{
+
+            passport.authenticate("local", {
+                successRedirect: "/reminders",
+                failureRedirect: "/login",
+                // failureFlash: true
+            })(req, res, next);}
+},
 
   registerSubmit: (req, res) => {
       const { email, password } = req.body;
@@ -40,9 +51,8 @@ let authController = {
   },
 
   logout: (req, res) => {
-      req.logout((err) => {
-          res.redirect("/login");
-      });
+      req.logout();
+      res.redirect("/login");
   }
 };
 
