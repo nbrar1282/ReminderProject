@@ -1,4 +1,26 @@
 
+=================================================================================================================
+==----------------------------------------------| First Sprint |-----------------------------------------------==
+November 15th (First Sprint Complete)
+Navdeep Singh Brar:
+    I worked on the following tasks:
+
+    Editing a Task - Implemented functionality for users to update reminder details including title, description, and completion status.
+
+    Deleting a Task - Developed a feature to delete reminders, allowing users to remove tasks from their list effectively.
+
+    I watched the videos from week 10 to understand how these two functionalities work.
+    
+==----------------------------------------------| Second Sprint |-----------------------------------------------==
+
+November 24th (Second Sprint Complete)
+Navdeep Singh Brar:
+    I worked on the following tasks:
+    Adding password-local to the project.
+    Creating a admin page.
+    Destroying a session remotely by admin.
+
+I read the documentation and watched videos to understand variois differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
 
 =================================================================================================================
 ==----------------------------------------------| Second Sprint |-----------------------------------------------==
@@ -19,17 +41,7 @@ Erfan Goudarzi:
 
 
 
-=================================================================================================================
-==----------------------------------------------| First Sprint |-----------------------------------------------==
-November 15th (First Sprint Complete)
-Navdeep Singh Brar:
-    I worked on the following tasks:
 
-    Editing a Task - Implemented functionality for users to update reminder details including title, description, and completion status.
-
-    Deleting a Task - Developed a feature to delete reminders, allowing users to remove tasks from their list effectively.
-
-    I watched the videos from week 10 to understand how these two functionalities work.
 -----------------------------------------------------------------------------------------------------------------
 Simranjit Kaur:
     I watched videos from week 10 and ran the code to find bugs in the code.

@@ -7,6 +7,11 @@ const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
 const flash = require('connect-flash');
+const activeSessions = require('./activesession')
+
+const app = express();
+
+
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -73,6 +78,23 @@ app.post("/login", authController.loginSubmit);
 app.post("/register", authController.registerSubmit);
 app.get("/logout", authController.logout);
 
+app.get("/admin", authController.adminPage);
+app.post('/revoke-session', (req, res) => {
+  if (req.isAuthenticated() && req.user.role === 'admin') {
+      const { sessionId } = req.body;
+      // Here, delete the session from your store
+      if (activeSessions[sessionId]) {
+          delete activeSessions[sessionId];
+          res.redirect('/admin'); 
+
+      } else {
+          res.status(404).json({ success: false, message: 'Session not found' });
+      }
+  } else {
+      res.status(403).json({ success: false, message: 'Unauthorized' });
+  }
+});
+   
 app.listen(3001, function () {
   console.log(
     "Server running. Visit: http://localhost:3001/reminders in your browser 🚀"
