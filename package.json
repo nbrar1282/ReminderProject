@@ -16,14 +16,21 @@
   "homepage": "http",
   "dependencies": {
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
+    "connect-redis": "^7.1.0",
     "ejs": "^3.1.9",
     "express": "^4.14.0",
     "express-ejs-layouts": "^2.2.0",
     "express-session": "^1.17.3",
     "method-override": "^2.3.7",
+    "mongoose": "^8.0.1",
     "nodemon": "^1.11.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+
+    "redis": "^4.6.11"
+
     "start": "^5.1.0"
+
   }
 }
