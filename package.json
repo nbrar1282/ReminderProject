@@ -27,6 +27,10 @@
     "nodemon": "^1.11.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+
     "redis": "^4.6.11"
+
+    "start": "^5.1.0"
+
   }
 }
