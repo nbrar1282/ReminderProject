@@ -1,6 +1,7 @@
 let User = require("../database").database;
 const passport = require("../middleware/passport");
-
+const userModel = require("../database").userModel;
+const sessions = require("../activesession")
 let authController = {
     loginPage: (req, res) => {
         res.render("auth/login");
@@ -10,27 +11,13 @@ let authController = {
         res.render("auth/register");
     },
 
-    loginSubmit: (req, res, next) => {
-        passport.authenticate("local", (err, user, info) => {
-            if (err) {
-                return next(err);
-            }
-            if (!user) {
-                // Handle login failure
-                return res.redirect('/login');
-            }
-
-            req.logIn(user, function(err) {
-                if (err) {
-                    return next(err);
-                }
-
-                // Redirect based on user role
-                const redirectUrl = user.role === 'admin' ? '/admin' : '/reminders';
-                return res.redirect(redirectUrl);
-            });
-        })(req, res, next);
-    },
+  loginSubmit: (req, res, next) => {
+      passport.authenticate("local", {
+          successRedirect: "/reminders",
+          failureRedirect: "/login",
+          failureFlash: true
+      })(req, res, next);
+  },
 
     registerSubmit: (req, res) => {
         const { email, password } = req.body;
@@ -53,21 +40,10 @@ let authController = {
         });
     },
 
-    logout: (req, res) => {
-        req.logout();
-        res.redirect("/login");
-    },
-
-    isAdmin: (req, res, next) => {
-        const userId = req.session.userId; // Get user ID from session
-        const user = User.find(u => u.id === userId); // Find user in the database
-
-        if (!user || user.role !== 'admin') {
-            return res.status(403).send('Access denied');
-        }
-
-        next(); // User is an admin, proceed to the next middleware/route handler
-    },
+  logout: (req, res) => {
+      req.logout();
+      res.redirect("/login");
+  }
 };
 
 module.exports = authController;

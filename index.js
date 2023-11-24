@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const ejsLayouts = require("express-ejs-layouts");
 const reminderController = require("./controller/reminder_controller");
@@ -8,8 +7,6 @@ const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
 const flash = require('connect-flash');
-const { isAdmin } = require('./controller/auth_controller'); // Import the isAdmin middleware
-
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,18 +29,27 @@ app.set("view engine", "ejs");
 //   next();
 // });
 
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
+app.use(session({
+  secret: 'your_secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // true if using HTTPS, ensures cookie is only sent over secure protocols
+    httpOnly: true, // Mitigates XSS attacks by not allowing client-side script access to the cookie
+    maxAge: 1000 * 60 * 60 * 24 // Cookie expiration duration in milliseconds (e.g., 24 hours here)
+  }
+}));
+
+app.use((req, res, next) => {
+  if (req.session) {
+      activeSessions[req.sessionID] = req.session;
+      req.session.lastAccess = new Date();  // Optionally track last access
+  }
+  next();
+});
+
+
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -67,27 +73,9 @@ app.post("/login", authController.loginSubmit);
 app.post("/register", authController.registerSubmit);
 app.get("/logout", authController.logout);
 
-// Route to render the admin dashboard
-app.get('/admin', authController.isAdmin, (req, res) => {
-  res.render('/admin');
-});
-
-
-app.post('/admin/destroy-session', isAdmin, (req, res) => {
-  const sessionId = req.body.sessionId; // The ID of the session to destroy from POST data
-
-  req.sessionStore.destroy(sessionId, (err) => {
-    if (err) {
-      console.error('Session destruction error:', err);
-      res.status(500).json({ message: 'Failed to destroy the session.' });
-    } else {
-      res.json({ message: 'Session destroyed successfully.' });
-    }
-  });
-});
-
 app.listen(3001, function () {
   console.log(
     "Server running. Visit: http://localhost:3001/reminders in your browser 🚀"
   );
 });
+
