@@ -51,6 +51,10 @@ let authController = {
   },
 
   logout: (req, res) => {
+    const sessionId = req.sessionID;
+    if (sessions[sessionId]) {
+        delete sessions[sessionId]; // Delete the session from activeSessions
+    }
       req.logout((err) => {
           res.redirect("/login");
       });
@@ -58,13 +62,16 @@ let authController = {
     
   },
 
-  adminPage: (req, res) => {
+  adminPage: (reqs, res) => {
     // Check if the user is logged in and has the admin role
-    if (req.isAuthenticated() && req.user.role === 'admin') {
+    if (reqs.isAuthenticated() && reqs.user.role === 'admin') {
+        console.log('Active sessions: ', reqs.user.id);
         // Use the activeSessions object directly
         res.render("admin/admin", { 
-            adminName: req.user.name,
-            sessions: Object.values(sessions) // Convert the activeSessions object to an array
+            adminName: reqs.user.name,
+            sessions: Object.values(sessions), // Convert the activeSessions object to an array
+            currentSessionId: reqs.sessionID // Pass the current session ID
+
 
         });
     } else {
@@ -80,6 +87,7 @@ let authController = {
             delete activeSessions[sessionId]; // If sessions are stored in an object
 
             res.json({ success: true });
+            
         } else {
             // If the user is not authenticated or not an admin, do not allow session revocation
             res.status(403).json({ success: false, message: 'Not authorized' });
