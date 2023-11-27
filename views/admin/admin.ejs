@@ -15,7 +15,10 @@
       <ul>
         <% sessions.forEach(function(session) { %>
           <li class="session-item">
-            SessionID: <%= session.id %> - UserID: <%= session.user && session.user.id %>
+            SessionID: <%= session.id %> - UserID: <%= session.passport.user %>
+            <% if (session.id === currentSessionId) { %>
+              <span> (It is your session) </span>
+            <% } %>
             <form action="/revoke-session" method="post">
               <input type="hidden" name="sessionId" value="<%= session.id %>">
               <button type="submit" class="revoke-session-button">Revoke Session</button>
