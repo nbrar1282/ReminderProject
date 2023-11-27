@@ -20,7 +20,7 @@ Navdeep Singh Brar:
     Creating a admin page.
     Destroying a session remotely by admin.
 
-I read the documentation and watched videos to understand variois differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
+I read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
 
 =================================================================================================================
 ==----------------------------------------------| Second Sprint |-----------------------------------------------==
