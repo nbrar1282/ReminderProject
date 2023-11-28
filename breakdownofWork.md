@@ -11,40 +11,24 @@ Navdeep Singh Brar:
 
     I watched the videos from week 10 to understand how these two functionalities work.
     
-    
+November 15th  
 Erfan Goudarzi: 
     I watched the videos from week 10 to understand how these two functionalities work.
     I worked on the following tasks:
     - Implementing the edit task functionality
     - Implementing the delete task functionality
     And I tried to remember and searched and watched the github and terminal commands to be able to work with the team.
+
+November 15th:
+Simranjit Kaur: [organizing team meetings ]
+
+    1- I watched videos from week 10 and ran the code to find bugs in the code. Debugging!
+
+    2- Learning callback functions more and worked on making authentication work along with teammates and instructor Armaan
+    
+    3- Working on editing and deleting task functionality
 ----------------------------------------------------------------------------------------------------------------- 
 ==----------------------------------------------| Second Sprint |-----------------------------------------------==
-Nov20th: 
-Erfan Goudarzi:
-- Working on routes
-- Login.ejs implementation 
-- Adding passport and session 
-
-
-Nov 21th: 
-Erfan Goudarzi:
-- Fixing the bugs in routes
-- Fixing the bugs in login.ejs
------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------
-Simranjit Kaur:
-    I watched videos from week 10 and ran the code to find bugs in the code.
-
-    I learnt about callback functions more and worked on making authentication work along with teammates and instructor Armaan
-
-    I learnt to merge passport and reminder codes to login using a user(with authenication) and routing to reminders page.
-
-    I learnt using the 'session' and destroy for revoking session.
------------------------------------------------------------------------------------------------------------------
-
-==----------------------------------------------| Third Sprint |-----------------------------------------------==
-
 November 24th (Second Sprint Complete)
 Navdeep Singh Brar:
     I worked on the following tasks:
@@ -54,11 +38,48 @@ Navdeep Singh Brar:
 
 I read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
 
-November 25th: 
+Nov20th: 
 Erfan Goudarzi:
-    - Working on seasions 
-    - Working on admin page
-    - Working on logout 
+- Working on routes
+- Login.ejs implementation 
+- Adding passport and session 
+
+
+Nov 20th: 
+Erfan Goudarzi:
+- Fixing the bugs in routes
+- Fixing the bugs in login.ejs
+
+
+Nov 20th:
+Simranjit Kaur: [organizing team meetings ]
+1- debugging for merging passport & session
+2- working on login functionality
+3- Debugging for routing
+
+-----------------------------------------------------------------------------------------------------------------
+
+==----------------------------------------------| Third Sprint |-----------------------------------------------==
+November 28th:
+Navdeep Singh Brar:
+    I worked on the following tasks:
+    Uploading image functionality.
+    Working on Random image function .
+    Watched videos and documentation.
+
+
+November 28th: 
+Erfan Goudarzi:
+    - Working on image functionality 
+    - Learnt about documentation
+    - Working on Random image function 
 read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
+
+November 28th:
+Simranjit Kaur: [organizing team meetings ]
+1- Working on uploading images.
+2- Working on Random image functionality.
+3- Learnt about multer and unsplash documentation stuff
+
 
 =================================================================================================================
