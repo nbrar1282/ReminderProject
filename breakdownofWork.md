@@ -11,18 +11,14 @@ Navdeep Singh Brar:
 
     I watched the videos from week 10 to understand how these two functionalities work.
     
-==----------------------------------------------| Second Sprint |-----------------------------------------------==
-
-November 24th (Second Sprint Complete)
-Navdeep Singh Brar:
+    
+Erfan Goudarzi: 
+    I watched the videos from week 10 to understand how these two functionalities work.
     I worked on the following tasks:
-    Adding password-local to the project.
-    Creating a admin page.
-    Destroying a session remotely by admin.
-
-I read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
-
-=================================================================================================================
+    - Implementing the edit task functionality
+    - Implementing the delete task functionality
+    And I tried to remember and searched and watched the github and terminal commands to be able to work with the team.
+----------------------------------------------------------------------------------------------------------------- 
 ==----------------------------------------------| Second Sprint |-----------------------------------------------==
 Nov20th: 
 Erfan Goudarzi:
@@ -36,12 +32,6 @@ Erfan Goudarzi:
 - Fixing the bugs in routes
 - Fixing the bugs in login.ejs
 -----------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
 -----------------------------------------------------------------------------------------------------------------
 Simranjit Kaur:
     I watched videos from week 10 and ran the code to find bugs in the code.
@@ -52,10 +42,23 @@ Simranjit Kaur:
 
     I learnt using the 'session' and destroy for revoking session.
 -----------------------------------------------------------------------------------------------------------------
-Erfan Goudarzi: 
-    I watched the videos from week 10 to understand how these two functionalities work.
+
+==----------------------------------------------| Third Sprint |-----------------------------------------------==
+
+November 24th (Second Sprint Complete)
+Navdeep Singh Brar:
     I worked on the following tasks:
-    - Implementing the edit task functionality
-    - Implementing the delete task functionality
-    And I tried to remember and searched and watched the github and terminal commands to be able to work with the team.
------------------------------------------------------------------------------------------------------------------ 
+    Adding password-local to the project.
+    Creating a admin page.
+    Destroying a session remotely by admin.
+
+I read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
+
+November 25th: 
+Erfan Goudarzi:
+    - Working on seasions 
+    - Working on admin page
+    - Working on logout 
+read the documentation and watched videos to understand various differnt ways of storing sessions and also watched d2l videos for understanding the passport logic.
+
+=================================================================================================================
