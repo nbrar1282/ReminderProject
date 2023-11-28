@@ -48,6 +48,7 @@ let remindersController = {
         id: user.reminders.length + 1, // Generate a unique ID for the reminder
         title: req.body.title,
         description: req.body.description,
+        cover: req.file ? `uploads/${req.file.filename}` : null, // Store a relative path
         completed: false,
       };
 

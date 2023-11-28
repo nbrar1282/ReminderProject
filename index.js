@@ -7,6 +7,8 @@ const { forwardAuthenticated } = require("./middleware/checkAuth");
 const session = require("express-session");
 const passport = require('./middleware/passport');
 const flash = require('connect-flash');
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' }); 
 const activeSessions = require('./activesession')
 const sessionStore = new session.MemoryStore();
 
@@ -15,7 +17,7 @@ const app = express();
 
 
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); //tell express to use the public folder for static files
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -76,7 +78,8 @@ app.get("/reminders", reminderController.list);
 app.get("/reminder/new", reminderController.new);
 app.get("/reminder/:id", reminderController.listOne);
 app.get("/reminder/:id/edit", reminderController.edit);
-app.post("/reminder/", reminderController.create);
+// Route for creating a reminder with image upload
+app.post("/reminder/", upload.single('coverImage'), reminderController.create);
 // ⭐ Implement these two routes below!
 app.post("/reminder/update/:id", reminderController.update);
 app.post("/reminder/delete/:id", reminderController.delete);
