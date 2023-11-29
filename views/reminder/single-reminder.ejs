@@ -1,7 +1,10 @@
 <div class="container">
   <h1 class="page-header">Reminders</h1>
-  <img src="<%= '/'+ reminderItem.cover %>" alt="Reminder Image" class="img-responsive" width="400px" height="400px">
-
+  <% if (reminderItem.cover && reminderItem.cover.includes('http')) { %>
+    <img src="<%= reminderItem.cover %>" alt="Reminder Image" class="img-responsive" width="400px" height="400px">
+  <% } else { %>
+    <img src="<%= '/' + reminderItem.cover %>" alt="Reminder Image" class="img-responsive" width="400px" height="400px">
+  <% } %>
     <ul class="list-group">
       <li class="list-group-item">
         <h3><strong><%= reminderItem.title %>: </strong></h3>

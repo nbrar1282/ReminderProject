@@ -1,5 +1,6 @@
 let { database } = require("../database");
 
+
 let remindersController = {
   list: (req, res) => {
     if (!req.user) {
@@ -37,18 +38,37 @@ let remindersController = {
     }
   },
 
-  create: (req, res) => {
+
+  create: async (req, res) => {
     if (!req.user) {
       return res.status(401).send("Unauthorized");
     }
 
     const user = database.find(u => u.id === req.user.id);
     if (user) {
+      let coverImage;
+      if (req.body.randomImage === 'true') {
+        try {
+          const unsplashResponse = await fetch('https://api.unsplash.com/photos/random?client_id=M-Y73DdK1ad11Az7RNSirBm23f7asVQm8nOXUy7OhFw');
+          if (!unsplashResponse.ok) {
+            throw new Error(`HTTP error! Status: ${unsplashResponse.status}`);
+          }
+          const imageData = await unsplashResponse.json();
+          coverImage = imageData.urls.regular; // Using the regular size image
+        } catch (error) {
+          console.error('Error fetching random image:', error);
+          return res.status(500).send("Error fetching random image.");
+        }
+      } else {
+        // Logic to handle uploaded image path
+        coverImage = 'path/to/uploaded/image'; // Replace with actual path
+      }
+
       const newReminder = {
-        id: user.reminders.length + 1, // Generate a unique ID for the reminder
+        id: user.reminders.length + 1,
         title: req.body.title,
         description: req.body.description,
-        cover: req.file ? `uploads/${req.file.filename}` : null, // Store a relative path
+        cover: coverImage,
         completed: false,
       };
 
@@ -58,6 +78,7 @@ let remindersController = {
       res.status(404).send("User not found.");
     }
   },
+
 
   edit: (req, res) => {
     if (!req.user) {
