@@ -9,7 +9,7 @@ let remindersController = {
 
     const user = database.find(u => u.id === req.user.id);
     if (user && user.reminders) {
-      res.render("reminder/index", { reminders: user.reminders });
+      res.render("reminder/index", { reminders: user.reminders, username: user.name });
     } else {
       res.status(404).send("User not found or no reminders available.");
     }
@@ -61,7 +61,7 @@ let remindersController = {
         }
       } else {
         // Logic to handle uploaded image path
-        coverImage = 'path/to/uploaded/image'; // Replace with actual path
+        coverImage = `uploads/${req.file.filename}`; // Replace with actual path
       }
 
       const newReminder = {
